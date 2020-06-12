@@ -19,8 +19,9 @@ class App extends React.Component {
     //post takes in url, data, and success
     var data = {username: term}
     var success = (data) =>{
+      console.log('making post and getting back data');
       this.setState({
-        repos: data;
+        repos: data
       });
     }
     //defining the success callback outside the post request
