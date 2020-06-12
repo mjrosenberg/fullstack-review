@@ -7,15 +7,24 @@ import RepoList from './components/RepoList.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       repos: []
     }
-
   }
 
   search (term) {
     console.log(`${term} was searched`);
-    // TODO
+    const url = 'http://localhost:1128/repos'
+    // implement a post request and update this.state.repos upon response
+    //post takes in url, data, and success
+    var data = {username: term}
+    var success = (data) =>{
+      this.setState({
+        repos: data;
+      });
+    }
+    //defining the success callback outside the post request
+    jQuery.post(url, data, success);
   }
 
   render () {
