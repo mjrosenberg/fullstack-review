@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 // require('dotenv').config();
-console.log('mongo link', process.env.MONGO_URI);
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/fetcher',{
+console.log('mongo link', process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/fetcher',{
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
