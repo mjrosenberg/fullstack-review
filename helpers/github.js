@@ -1,6 +1,6 @@
 const axios = require('axios');
-const config = require('../config.js') || {TOKEN: process.env.TOKEN}; //uncomment if the process.env.token doesn't work
-
+const config = {TOKEN: process.env.TOKEN}; //uncomment if the process.env.token doesn't work
+// require('../config.js') ||
 let getReposByUsername = (username) => {
   // TODO - Use the axios module to request repos for a specific
   // user from the github API
