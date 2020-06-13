@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const Promise = require('bluebird');
-require('dotenv').config();
+// require('dotenv').config();
 let app = express();
 
 app.use(cors());
