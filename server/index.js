@@ -16,13 +16,10 @@ Promise.promisifyAll(require('mongoose'));
 const gitHubHelpers = require('../helpers/github.js');
 
 app.post('/repos', function (req, res) {
-// app.get('/addRepos', function (req, res) {
-  // req.body should be an obect like this {username: 'max'}
   console.log('body in post', req.body);
   gitHubHelpers.getReposByUsername(req.body.username)
     .then((data) => {
       for (repo of data.data) {
-        // console.log('repo', repo);
         db.save(repo);
       }
       res.send(data.data);
@@ -40,14 +37,8 @@ app.post('/repos', function (req, res) {
 
 app.get('/repos', function (req, res) {
   // TODO - your code here!
-  var username = null;
-  console.log('request body for get', req.body);
-  if (req.body.username !== undefined){
-    console.log('changing username to', req.body.username);
-    username = req.body.username
-  }
   var responseArr = [];
-  db.getTopTwentyFive(username)
+  db.getTopTwentyFive()
     .then((data) => {
       for(var i = 0; i< 25; i++){
         responseArr.push(data[i]);

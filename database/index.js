@@ -7,9 +7,9 @@ let repoSchema = mongoose.Schema({
   //specifically because username is owner.login, which just seems like an odd col name
   name: {type: String, unique: true},
   username: String,
-  link: String //idk if there is a link type that is clickable but that seems more for the front end to handle
+  link: String
 });
-
+//need to figure out how to clear the db because I have duplicates but I don't want them
 let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (dataObj) => {
@@ -30,21 +30,17 @@ let save = (dataObj) => {
   });
 }
 
-let getTopTwentyFive = (name) => {
-  console.log('name', name);
+let getTopTwentyFive = () => {
+  //make another filter for sorting
   queryParams = {};
-  if(name){
-    queryParams.username = name;
-  }
   var query = Repo.find(queryParams,(err, results) => {
     if (err) {
       return console.error(err)
     }
-    // console.log('results',results);
     return results;
   });
-  // console.log(query);
   return query;
+  // return query.sort({name: desc});
 }
 
 module.exports.save = save;
