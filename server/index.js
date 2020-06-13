@@ -6,7 +6,7 @@ const Promise = require('bluebird');
 require('dotenv').config();
 let app = express();
 
-// app.use(cors());
+app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/../client/dist'));
