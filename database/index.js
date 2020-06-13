@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
@@ -38,7 +39,6 @@ let getTopTwentyFive = () => {
     return results;
   }).sort({stars: -1}).limit(25);
   return query;
-  // return query.sort({name: desc});
 }
 
 module.exports.save = save;
