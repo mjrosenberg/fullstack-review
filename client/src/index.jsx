@@ -31,6 +31,12 @@ class App extends React.Component {
     console.log(dataSent)
     var postSuccess = (data) =>{
       console.log('making post and getting back data');
+      fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+      }).then(getSuccess);
     }
     var getSuccess = (data) => {
       console.log('successful get', term, data);
@@ -47,12 +53,12 @@ class App extends React.Component {
       }
     }).then(postSuccess);
 
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(getSuccess);
+    // fetch(url, {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }).then(getSuccess);
   }
 
   render () {

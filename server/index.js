@@ -36,22 +36,15 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  var responseArr = [];
   db.getTopTwentyFive()
     .then((data) => {
-      for(var i = 0; i< 25; i++){
-        responseArr.push(data[i]);
-      }
-      if (data.length < 25){
-        responseArr = responseArr.slice(0,data.length);
-      }
-      res.send(responseArr);
+      res.send(data);
     })
     .catch((err) => {
       console.log(err);
     });
-  // This route should send back the top 25 repos
+  // This route should send back the top 25 repos sprted alphabetically
+  //having an issue with lowercase v. uppercase
 });
 
 let port = 1128;
