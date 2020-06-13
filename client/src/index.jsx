@@ -12,7 +12,6 @@ class App extends React.Component {
     }
   }
   componentDidMount(){
-    //i think its adding a new undefined repo each time because the initial state is empty and doesn't change until we get but idk
     const url = 'http://localhost:1128/repos';
     const success = (data) => {
       console.log('successful get');
@@ -25,21 +24,12 @@ class App extends React.Component {
   search (term) {
     console.log(`${term} was searched`);
     const url = 'http://localhost:1128/repos'
-    // implement a post request and update this.state.repos upon response
-    //post takes in url, data, and success
     var dataSent = {'username': term};
-    console.log(dataSent)
+
     var postSuccess = (data) =>{
-      console.log('making post and getting back data');
-      fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-      }).then(getSuccess);
+      $.get(url, getSuccess);
     }
     var getSuccess = (data) => {
-      console.log('successful get', term, data);
       this.setState({
         repos: data
       });
@@ -52,24 +42,16 @@ class App extends React.Component {
         'Content-Type': 'application/json'
       }
     }).then(postSuccess);
-
-    // fetch(url, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(getSuccess);
   }
 
   render () {
-    return (<div>
+    return (<div id='react'>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search.bind(this)}/>
+      <RepoList repos={this.state.repos}/>
+
     </div>)
   }
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
-//need to figure out: weird untitled repo adding, how to reset database to avoid duplicates, how to sort and limit items within the query
