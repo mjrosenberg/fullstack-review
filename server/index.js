@@ -2,35 +2,37 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const Promise = require('bluebird');
 let app = express();
 
+// app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('dev'));
-app.use(cors());
 app.use(express.static(__dirname + '/../client/dist'));
 
 //need to get the data from my database
 const db = require('../database/index');
+Promise.promisifyAll(require('mongoose'));
 const gitHubHelpers = require('../helpers/github.js');
-// console.log('save', db.save);
-//console.log(gitHubHelpers);
-//I have imported my db and it has a .save which is a function that saves the instance of a model
+
 app.post('/repos', function (req, res) {
+// app.get('/addRepos', function (req, res) {
   // req.body should be an obect like this {username: 'max'}
-  console.log('req.body');
-  //res.send('request went through');
-  // var userRepos = gitHubHelpers.getRepoByUsername(req.body.username);
-  gitHubHelpers.getRepoByUsername(req.body.username)
+  console.log('body in post', req.body);
+  gitHubHelpers.getReposByUsername(req.body.username)
     .then((data) => {
-      console.log('success');
-      // res.send(data);
+      for (repo of data.data) {
+        // console.log('repo', repo);
+        db.save(repo);
+      }
+      res.send(data.data);
     })
-    .catch((err) => res.send(err));
+    .catch((err) => {
+      console.log('getting an error', err);
+      res.send(err)
+    });
 
   //call this method to return all the repos by the username
-  // console.log('post request', userRepos);
-
-  //this is the basic structure of what we want, I still need to implement the helper function and then fix this up
   // This route should take the github username provided
   // and get the repo information from the github API, then
   // save the repo information in the database
@@ -38,6 +40,26 @@ app.post('/repos', function (req, res) {
 
 app.get('/repos', function (req, res) {
   // TODO - your code here!
+  var username = null;
+  console.log('request body for get', req.body);
+  if (req.body.username !== undefined){
+    console.log('changing username to', req.body.username);
+    username = req.body.username
+  }
+  var responseArr = [];
+  db.getTopTwentyFive(username)
+    .then((data) => {
+      for(var i = 0; i< 25; i++){
+        responseArr.push(data[i]);
+      }
+      if (data.length < 25){
+        responseArr = responseArr.slice(0,data.length);
+      }
+      res.send(responseArr);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   // This route should send back the top 25 repos
 });
 

@@ -7,15 +7,18 @@ let getReposByUsername = (username) => {
 
   // The options object has been provided to help you out,
   // but you'll have to fill in the URL
-  console.log('username to be found', username);
+  var url = `https://api.github.com/users/${username}/repos`;
+  // console.log('username to be found', username);
+  // console.log('url is', url, 'with type', typeof url)
   let options = {
-    url: 'https://api.github.com', //maybe needs a /repos or something to specify we want all his repos
+    url: url, //maybe needs a /repos or something to specify we want all his repos
     headers: {
       'User-Agent': 'request',
-      'Authorization': `token ${config.TOKEN}`
+      'Authorization': `token ${config.TOKEN}`,
+      'Accept': 'application/vnd.github.v3+json'
     }
   };
-  return $axios.$get(`/users/${username}`, options); //not sure if this is 100% right, I'm gonna look into the github API and see
+  return axios.get(url, options); //not sure if this is 100% right, I'm gonna look into the github API and see
   //figure out axios after lunch
 }
 
